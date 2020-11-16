@@ -8,20 +8,16 @@
 
       <hr>
       <weather-item city="Chur"></weather-item>
-      <weather-item city="Grabs"></weather-item>
-      <weather-item city="Bern"></weather-item>
-      <weather-item city="Miami"></weather-item>
   </div>
 </template>
 
 <script>
-import WeatherItem from '@/components/WeatherItem'
 import axios from 'axios'
 
 export default {
-  name: 'Home',
+  name: 'Search',
   components: {
-    WeatherItem
+
   },
   data () {
     return {
@@ -30,10 +26,6 @@ export default {
     }
   },
   computed: {
-    // Mit this.$store.state.{name} hol ich den Wert vom state
-    // city () {
-    //   return this.$store.state.city
-    // },
     forecastTemperature () {
       return this.forecast.main.temp + ' °C'
     },
@@ -50,8 +42,6 @@ export default {
   },
   methods: {
     fetchWeather () {
-      // Mutation setCity wird aufgerufen und gibt den payload city mit
-      this.$store.commit('setCity', this.city)
       // Scope this ist nur innerhalb der then Schleife gültig, deshalb this
       let self = this
       axios.get(this.apiUrl)
@@ -72,6 +62,7 @@ p {
   font-size: 70px;
 }
 input {
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
   border: none;
   width: 100%;
