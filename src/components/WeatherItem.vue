@@ -22,10 +22,7 @@ export default {
       } else {
         return 'unbekannt'
       }
-    },
-    apiUrl () {
-      return 'https://api.openweathermap.org/data/2.5/weather?q=' + this.city + '&units=metric&appid=' + process.env.VUE_APP_WEATHER_API_KEY
-    },
+    }
   },
   mounted () {
     // Sobald eine Komponente in DOM gerendert wird wird mounted aufgerufen

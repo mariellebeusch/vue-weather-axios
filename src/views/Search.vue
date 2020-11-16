@@ -26,9 +26,6 @@ export default {
     forecastTemperature () {
       return this.forecast.main.temp + ' °C'
     },
-    apiUrl () {
-      return process.env.VUE_APP_WEATHER_API_BASE + this.city + '&units=metric&lang=de&appid=' + process.env.VUE_APP_WEATHER_API_KEY
-    },
     backgroundCheck () {
       if (this.forecast.main && this.forecast.main.temp > 10) {
         return true

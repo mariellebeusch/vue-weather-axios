@@ -37,9 +37,6 @@ export default {
     forecastTemperature () {
       return this.forecast.main.temp + ' °C'
     },
-    apiUrl () {
-      return 'https://api.openweathermap.org/data/2.5/weather?q=' + this.city + '&units=metric&appid=' + process.env.VUE_APP_WEATHER_API_KEY
-    },
     backgroundCheck () {
       return this.forecast.main && this.forecast.main.temp > 10
     }
