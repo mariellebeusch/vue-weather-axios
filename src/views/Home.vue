@@ -1,18 +1,25 @@
 <template>
   <div class="home cold" v-bind:class="{ warm : backgroundCheck }">
-      <input type="text" v-model="city" v-on:keyup.enter="fetchWeather">
+      <input type="text" v-model="city" v-on:keyup.enter="fetchWeather" placeholder="Ort eingeben...">
       <br>
-      <h2 v-if="forecast.main">
-        {{ forecastTemperature }}
-      </h2>
+      <p class="information" v-if="forecast.main">
+          {{ forecastTemperature }}
+      </p>
+
+      <hr>
+      <weather-item city="Chur"></weather-item>
   </div>
 </template>
 
 <script>
+import WeatherItem from '@/components/WeatherItem'
 import axios from 'axios'
 
 export default {
   name: 'Home',
+  components: {
+    WeatherItem
+  },
   data () {
     return {
       city: '',
@@ -20,9 +27,7 @@ export default {
     }
   },
   computed: {
-    // Hier verändere ich meine Daten für die Ausgabe
     forecastTemperature () {
-      // Returnt meine Temperatur mit dem String °C
       return this.forecast.main.temp + ' °C'
     },
     apiUrl () {
@@ -54,8 +59,8 @@ export default {
 }
 </script>
 <style>
-h2 {
-  font-size: 40px;
+p {
+  font-size: 70px;
 }
 input {
   text-align: center;
@@ -67,6 +72,10 @@ input {
   line-height: 147.6%;
   padding-top: 0.825rem;
   padding-bottom: 0.5rem;
+}
+
+.information {
+  padding-top: 30px;
 }
 
 .home {
