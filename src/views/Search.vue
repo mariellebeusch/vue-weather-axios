@@ -1,36 +1,34 @@
 <template>
   <div class="home cold" v-bind:class="{ warm : backgroundCheck }">
-      <input type="text" v-model="city" v-on:keyup.enter="fetchWeather" placeholder="Ort eingeben...">
-      <br>
-      <p class="information" v-if="forecast.main">
-          {{ forecastTemperature }}
-      </p>
+    <input type="text" v-model="city" v-on:keyup.enter="fetchWeather" placeholder="Ort eingeben...">
+    <br>
+    <p class="information" v-if="forecast.main">
+      {{ forecastTemperature }}
+    </p>
 
-      <hr>
-      <weather-item city="Chur"></weather-item>
+    <hr>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { mapFields } from 'vuex-map-fields'
 
 export default {
   name: 'Search',
-  components: {
-
-  },
+  components: {},
   data () {
     return {
-      city: '',
       forecast: {}
     }
   },
   computed: {
+    ...mapFields(['city']),
     forecastTemperature () {
       return this.forecast.main.temp + ' °C'
     },
     apiUrl () {
-      return 'https://api.openweathermap.org/data/2.5/weather?q=' + this.city + '&units=metric&appid=' + process.env.VUE_APP_WEATHER_API_KEY
+      return 'https://api.openweathermap.org/data/2.5/weather?q=' + this.city + '&units=metric&lang=de&appid=' + process.env.VUE_APP_WEATHER_API_KEY
     },
     backgroundCheck () {
       if (this.forecast.main && this.forecast.main.temp > 10) {
@@ -42,7 +40,6 @@ export default {
   },
   methods: {
     fetchWeather () {
-      // Scope this ist nur innerhalb der then Schleife gültig, deshalb this
       let self = this
       axios.get(this.apiUrl)
           .then(function (response) {
@@ -55,12 +52,14 @@ export default {
           })
     }
   }
+
 }
 </script>
 <style>
 p {
   font-size: 70px;
 }
+
 input {
   font-family: 'Montserrat', sans-serif;
   text-align: center;
@@ -81,14 +80,15 @@ input {
 .home {
   height: 100vh;
 }
-.cold  {
+
+.cold {
   background-image: url("~@/assets/cold_bg.jpg");
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-.warm  {
+.warm {
   background-image: url("~@/assets/warm_bg.jpg");
   background-attachment: fixed;
   background-size: cover;
