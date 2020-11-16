@@ -17,7 +17,6 @@
 <script>
 import WeatherItem from '@/components/WeatherItem'
 import { mapFields } from 'vuex-map-fields'
-import axios from 'axios'
 
 export default {
   name: 'Home',
@@ -47,20 +46,11 @@ export default {
   },
   methods: {
     fetchWeather () {
-      // Mutation setCity wird aufgerufen und gibt den payload city mit
-      // this.$store.commit('setCity', this.city)
-
-      // Scope this ist nur innerhalb der then Schleife gültig, deshalb this
-      let self = this
-      axios.get(this.apiUrl)
-          .then(function (response) {
-            // handle success
-            self.forecast = response.data
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error)
-          })
+      // actions dispatchen
+      this.$store.dispatch('fetchWeather', this.city ).then(response => {
+            this.forecast = response
+          }
+      )
     }
   }
 }
