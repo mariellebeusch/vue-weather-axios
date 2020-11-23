@@ -7,20 +7,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    city: 'Chur'
+    city: 'Chur',
+    forecast: {}
   },
   getters: {
     getField,
     currentCity: state =>  {
       return state.city
+    },
+    currentForecast: state => {
+      return state.forecast
     }
   },
   mutations: {
     updateField,
     // Funktion mutiert die Stadt
-    setCity (state, payload) {
-      state.city = payload
-    }
+    setCity (state, payload) { state.city = payload },
+    setForecast (state, payload) { state.forecast = payload }
   },
   actions: {
     fetchWeather (state, payload) {
@@ -30,6 +33,17 @@ export default new Vuex.Store({
         })
         .catch(function (error) {
           console.log(error)
+        })
+    },
+    fetchWeatherForStore ({ commit }, payload) {
+      return axios.get(process.env.VUE_APP_WEATHER_API_BASE + payload + '&units=metric&lang=de&appid=' + process.env.VUE_APP_WEATHER_API_KEY)
+        .then(function (response) {
+          commit('setForecast', response.data)
+          return response.data
+        })
+        .catch(function (error) {
+          console.log(error)
+          return error
         })
     }
   },

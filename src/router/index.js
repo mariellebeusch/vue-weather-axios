@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Search from '../views/Search.vue'
 import City from '../views/City.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -23,8 +24,12 @@ const routes = [
     component: City,
     // man wechselt erst die Route wenn Daten geladen sind
     beforeEnter: (to, from, next)  => {
-      console.log('City View')
-      next()
+      store.dispatch('fetchWeatherForStore', to.params.city).then(response => {
+        console.log(response)
+        next()
+      }).catch (err => {
+        console.log(err)
+      })
     }
   }
 ]
@@ -36,11 +41,13 @@ const router = new VueRouter({
 })
 
 // immer wenn die Route wechselt kommt beforeEach in das Spiel
+  /*
 router.beforeEach( (to, from, next) => {
   console.log('beforeEach')
   console.log(from)
   console.log(to)
   next()
 })
+   */
 
 export default router
