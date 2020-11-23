@@ -3,6 +3,7 @@
 
     <weather-store></weather-store>
 
+
   </div>
 </template>
 
@@ -28,7 +29,10 @@ export default {
       return this.forecast.main && this.forecast.main.temp > 10
     }
   },
-  methods: {}
+  methods: {},
+  updated: function () {
+    console.log('Dom wurde aktualisiert')
+  }
 }
 </script>
 <style>
