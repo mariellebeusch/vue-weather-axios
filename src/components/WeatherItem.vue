@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ city }}: {{ forecastTemperature }}
+    {{ forecastCity }}: {{ forecastTemperature }}
   </div>
 </template>
 <script>
@@ -19,6 +19,14 @@ export default {
     forecastTemperature () {
       if (this.forecast.main) {
         return this.forecast.main.temp + ' °C'
+      } else {
+        return 'unbekannt'
+      }
+    },
+    // City Funktion um die Stadt richtig darzustellen
+    forecastCity () {
+      if (this.forecast.name) {
+        return this.forecast.name
       } else {
         return 'unbekannt'
       }

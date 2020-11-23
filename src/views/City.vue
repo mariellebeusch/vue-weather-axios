@@ -1,19 +1,8 @@
 <template>
   <div class="home cold" v-bind:class="{ warm : backgroundCheck }">
-    <input type="text" v-model="city" v-on:keyup.enter="fetchWeather" placeholder="Ort eingeben...">
-    <br>
-    <p class="information" v-if="forecast.main">
-      {{ forecastTemperature }}
-    </p>
 
-    <hr>
-    <button @click="goNewYork">Go to New York</button>
-    <br>
+    <weather-item :city="$route.params.city"></weather-item>
 
-    <weather-item city="Chur"></weather-item>
-    <weather-item city="Grabs"></weather-item>
-    <weather-item city="Bern"></weather-item>
-    <weather-item city="Miami"></weather-item>
   </div>
 </template>
 
@@ -22,7 +11,7 @@ import WeatherItem from '@/components/WeatherItem'
 import { mapFields } from 'vuex-map-fields'
 
 export default {
-  name: 'Home',
+  name: 'City',
   components: {
     WeatherItem
   },
@@ -32,13 +21,13 @@ export default {
     }
   },
   computed: {
-    // Mit this.$store.state.{name} hol ich den Wert vom state
-    /* city () {
-       return this.$store.state.city
-    } */
     ...mapFields(['city']),
     forecastTemperature () {
-      return this.forecast.main.temp + ' °C'
+      if (this.forecast.main) {
+        return this.forecast.main.temp + ' °C'
+      } else {
+        return 'unbekannt'
+      }
     },
     backgroundCheck () {
       return this.forecast.main && this.forecast.main.temp > 10
@@ -51,9 +40,6 @@ export default {
             this.forecast = response
           }
       )
-    },
-    goNewYork () {
-      this.$router.push({ name: 'City', params: { city: 'New York' } })
     }
   }
 }
