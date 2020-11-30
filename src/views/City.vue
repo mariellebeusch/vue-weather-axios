@@ -1,15 +1,24 @@
 <template>
-  <div class="home cold" v-bind:class="{ warm : backgroundCheck }">
+  <v-container fluid>
+    <v-row>
+      <v-col>
+        <weather-store></weather-store>
 
-    <weather-store></weather-store>
+        <v-list class="mt-5">
+          <v-list-item to="/city/grabs">Grabs</v-list-item>
+          <v-list-item to="/city/kairo">Kairo</v-list-item>
+          <v-list-item to="/city/new%20york">New York</v-list-item>
+        </v-list>
 
-
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import WeatherStore from '@/components/WeatherStore'
 import { mapGetters } from 'vuex'
+import store from '../store'
 
 export default {
   name: 'City',
@@ -24,53 +33,20 @@ export default {
   computed: {
     ...mapGetters({
       forecast: 'currentForecast'
-    }),
-    backgroundCheck () {
-      return this.forecast.main && this.forecast.main.temp > 10
-    }
+    })
   },
   methods: {},
-  updated: function () {
-    console.log('Dom wurde aktualisiert')
+  beforeRouteUpdate: (to, from, next) => {
+    store.dispatch('fetchWeatherForStore', to.params.city).then(response => {
+      console.log(response)
+      next()
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
 <style>
-p {
-  font-size: 70px;
-}
 
-input {
-  text-align: center;
-  border: none;
-  width: 100%;
-  font-size: 30px;
-  height: 3rem;
-  padding-left: 0.875rem;
-  line-height: 147.6%;
-  padding-top: 0.825rem;
-  padding-bottom: 0.5rem;
-}
 
-.information {
-  padding-top: 30px;
-}
-
-.home {
-  height: 100vh;
-}
-
-.cold {
-  background-image: url("~@/assets/cold_bg.jpg");
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.warm {
-  background-image: url("~@/assets/warm_bg.jpg");
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
 </style>

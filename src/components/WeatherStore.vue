@@ -1,8 +1,12 @@
 <template>
-  <div>
-    aktuelles Wetter im Vuex Store:
-    {{ forecastCity }}: {{ forecastTemperature }}
-  </div>
+  <v-card tile>
+    <v-card-title class="text-h3">
+      {{ forecastCity }}
+    </v-card-title>
+    <v-card-text class="text-h5">
+      Aktuelle Temperatur: {{ forecastTemperature }}
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -14,12 +18,6 @@ export default {
     }
   },
   computed: {
-    // So hol ich das aktuelle Wetter aus dem state (store)
-    /*
-    forecast() {
-      return this.$store.state.forecast
-    },
-    */
     ...mapGetters({
       forecast: 'currentForecast'
     }),

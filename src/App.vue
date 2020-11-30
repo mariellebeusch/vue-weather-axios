@@ -1,35 +1,65 @@
 <template>
-  <div id="app">
-    <nav class="navigation">
-      <router-link to="/search">Ort suchen</router-link>
-      <router-link to="/">Alle anzeigen</router-link>
-    </nav>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title>
+        <router-link to="/" class="text-decoration-none">
+          Wetter App
+        </router-link>
+      </v-toolbar-title>
+    </v-app-bar>
+    <v-main v-bind:class="backgroundImage">
+      <v-container fluid>
+        <v-row>
+          <v-col>
+            <router-view></router-view>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+<script>
+import { mapGetters } from 'vuex'
 
-body {
-  font-family: 'Montserrat', sans-serif;
-}
-
-.navigation {
-  display: inline-block;
-  font-size: 18px;
-  & a {
-    padding: 7px;
+export default {
+  name: 'App',
+  components: {},
+  data: () => ({
+    //
+  }),
+  computed: {
+    ...mapGetters({
+      backgroundImage: 'backgroundImage'
+    }),
+  },
+  mounted: function () {
+    this.$store.dispatch('fetchWeatherForStore', this.$store.state.city)
   }
 }
-
+</script>
+<style lang="scss">
 #app {
-  font-family: 'Montserrat', sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100vh;
+}
+
+.cold {
+  background-image: url("~@/assets/cold_bg.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.warm {
+  background-image: url("~@/assets/warm_bg.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
+
